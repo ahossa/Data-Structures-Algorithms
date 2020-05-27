@@ -3,8 +3,8 @@
 ## created: 10.02.2020 MONDAY 
 
 import unittest
-from Node import Node
-from SLinkedList import SLinkedList
+from . import Node
+from . import SLinkedList
 
 
 class TestSLinkedList(unittest.TestCase):
