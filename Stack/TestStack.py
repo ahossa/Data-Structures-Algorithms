@@ -3,7 +3,7 @@
 ## created: 09.02.2020 SUNDAY 
 
 import unittest
-from Stack import Stack
+from .Stack import Stack 
 
 
 class TestStack(unittest.TestCase):
@@ -16,6 +16,8 @@ class TestStack(unittest.TestCase):
         stack.push(4)
         self.assertEqual(stack.peekTop(), 4)
         self.assertEqual(stack.peekBottom(), 1)
+        print("TEST STACK: Testing Peek Complete")
+
 
     # Test stack size related methods
     def test_stack_size(self):
@@ -28,6 +30,8 @@ class TestStack(unittest.TestCase):
         self.assertEqual(stack.size(), 2)
         stack.clear()
         self.assertTrue(stack.isEmpty())  
+        print("TEST STACK: Testing Size Complete")
+
     
 
 

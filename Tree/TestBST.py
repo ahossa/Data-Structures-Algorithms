@@ -3,7 +3,7 @@
 ## created: 05.03.2020 THURSDAY 
 
 import unittest
-from BinarySearchTree import BinarySearchTree as Tree
+from . import BinarySearchTree as Tree
 
 
 class TestBST(unittest.TestCase):
