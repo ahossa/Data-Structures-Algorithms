@@ -1,7 +1,7 @@
 import unittest
+from LinkedList.TestLinkedList import TestSLinkedList
 from Stack.TestStack import TestStack
 from Queue.TestQueue import TestQueue
-from LinkedList import TestLinkedList
 from Tree import TestBST
 
 

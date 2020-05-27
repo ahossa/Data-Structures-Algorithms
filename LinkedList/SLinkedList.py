@@ -2,7 +2,7 @@
 ## SLinkedList.py
 ## created: 10.02.2020 MONDAY
 
-from . import Node
+from .Node import Node
 
 class SLinkedList():
 

@@ -3,8 +3,8 @@
 ## created: 10.02.2020 MONDAY 
 
 import unittest
-from . import Node
-from . import SLinkedList
+from .Node import Node
+from .SLinkedList import SLinkedList
 
 
 class TestSLinkedList(unittest.TestCase):
@@ -28,7 +28,8 @@ class TestSLinkedList(unittest.TestCase):
         self.assertTrue(sll.getNode(2).value, 43)
         self.assertEqual(sll.debugPrint(), "44 43 77 2 55")
         self.assertEqual(sll.searchList(Node(2)), 3)        
-        self.assertEqual(sll.searchList(Node(111)), -1)        
+        self.assertEqual(sll.searchList(Node(111)), -1)
+        print("TEST LINKED-LIST: Testing Insertion Complete")        
  
 
     def test_Peek(self):
@@ -38,7 +39,8 @@ class TestSLinkedList(unittest.TestCase):
         sll.insertHeadNode(Node(40))
         self.assertEqual(sll.peekHead(), 40)
         self.assertEqual(sll.peekTail(), 30)
-    
+        print("TEST LINKED-LIST: Testing Peek Complete")        
+
     
     def test_deletion(self):
         sll = SLinkedList()
@@ -47,6 +49,7 @@ class TestSLinkedList(unittest.TestCase):
         self.assertEqual(sll.peekHead(), "A")
         self.assertEqual(sll.popHeadNode(), "A")   # Z
         self.assertEqual(sll.peekHead(), sll.peekTail())
+        print("TEST LINKED-LIST: Testing Deletion Complete")        
 
     
     def test_data_access(self):
@@ -63,5 +66,7 @@ class TestSLinkedList(unittest.TestCase):
         self.assertEqual(sll.getHeadNode().value, 75) # 75 99 69 65
         self.assertEqual(sll.getNode(2).value, 99)
         self.assertEqual(sll.debugPrint(), "75 99 69 65")
+        print("TEST LINKED-LIST: Testing Data Access Complete")        
+
 
         
