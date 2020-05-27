@@ -3,7 +3,7 @@
 ## created: 09.02.2020 SUNDAY 
 
 import unittest
-from Queue import Queue
+from .Queue import Queue
 
 
 class TestQueue(unittest.TestCase):
@@ -16,6 +16,8 @@ class TestQueue(unittest.TestCase):
         queue.push(4)
         self.assertEqual(queue.peekTop(), 1)
         self.assertEqual(queue.peekBottom(), 4)
+        print("TEST QUEUE: Testing Peek Complete")
+
 
     # Test queue size related methods
     def test_stack_size(self):
@@ -29,3 +31,4 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(queue.Size(), 2)
         queue.clear()
         self.assertTrue(queue.isEmpty())
+        print("TEST QUEUE: Testing Size Complete")
