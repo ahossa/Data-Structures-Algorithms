@@ -3,13 +3,15 @@
 ## created: 05.03.2020 THURSDAY 
 
 import unittest
-from . import BinarySearchTree as Tree
+from .BinarySearchTree import BinarySearchTree as Tree
 
 
 class TestBST(unittest.TestCase):
     
     # Test queue peek related methods
     def test_Insertion(self):
+        print("TEST BST: Testing Insertion Start")
+
         tree = Tree()
         #     (90)
         self.assertEqual(tree.insertNode(90), 1)
@@ -28,4 +30,3 @@ class TestBST(unittest.TestCase):
         #  /  \     /   \
         #         (95)
         self.assertEqual(tree.insertNode(95), -3)
-
