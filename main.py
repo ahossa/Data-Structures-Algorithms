@@ -1,5 +1,5 @@
 import unittest
-from TestStack import TestStack
+from Stack import TestStack as TestStack
 from TestQueue import TestQueue
 from TestLinkedList import TestSLinkedList
 from TestBST import TestBST
