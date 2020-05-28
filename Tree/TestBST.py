@@ -63,6 +63,17 @@ class TestBST(unittest.TestCase):
         self.assertEqual(bst.insertNode(60), 7)
         self.assertEqual(bst.isEmpty(), False)
         self.assertEqual(bst.getSize(), 7)
+
+        ## Searching
+        self.assertEqual(bst.searchNode(96), 5)
+        self.assertEqual(bst.searchNode(90), 1)
+        self.assertEqual(bst.searchNode(69), 0)
+        
+        ## Get all children
+        children = bst.getChildrenNodes(bst.getRootNode())
+        self.assertEqual(len(children), 6)
+        
+
         
 
 

@@ -2,6 +2,8 @@
 ## Describes a Node class for Tree Implementations
 ## created: 18.02.2020 TUESDAY
 
+from Debug import LOG_DEBUG
+
 class TreeNode():
     def __init__(self, id, val = None, left = None,
                  right = None):
@@ -104,4 +106,20 @@ class TreeNode():
         return ( self.leftChild is not None and 
                  self.rightChild is not None)
     
-
+    def debugPrint(self, doPrintDebug):
+        if doPrintDebug:
+            LOG_DEBUG("=======================", doPrintDebug)
+            LOG_DEBUG(" NODE DEBUG ", doPrintDebug)
+            LOG_DEBUG("Id : " + str(self.getId()) +
+                " Value : " + str(self.getValue()), doPrintDebug)
+            if self.hasLeftChild():
+                LOG_DEBUG("LCH : " + 
+                    str(self.getLeftChild().getValue()), doPrintDebug)
+            if self.hasRightChild():
+                LOG_DEBUG("RCG : " +
+                    str(self.getRightChild().getValue()), doPrintDebug)
+            if not self.hasAnyChildren():
+                LOG_DEBUG("No Children", doPrintDebug)
+            if not self.isRoot():
+                LOG_DEBUG("Parent : " + str(self.getParent()),
+                    doPrintDebug)

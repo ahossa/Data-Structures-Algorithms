@@ -9,8 +9,9 @@ class BinarySearchTree():
         self.__size = 0
 
         # Set this to True for Debug Statements
-        self.debugMode = False
+        self.debugMode = True
     
+    ## - - - - - - - - PUBLIC METHODS - - - - - - - - - - - -##
     
     ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
@@ -22,7 +23,12 @@ class BinarySearchTree():
     # @ret Returns Id of the newly inserted Node into BST
     #
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
-    def insertNode(self, newNodeValue):     
+    def insertNode(self, newNodeValue):
+        LOG_DEBUG("================================", 
+            self.debugMode)
+        LOG_DEBUG(" OPERATION : Insert " + str(newNodeValue), 
+            self.debugMode)     
+        
         # If root is empty or Size 0 that means BST is empty
         # In that case insert the Node at Root
         if (self.__rootNodePtr is None and 
@@ -36,6 +42,165 @@ class BinarySearchTree():
         
         rootNode = self.__rootNodePtr
         return self.__insert(rootNode, newNodeValue);
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Search for a Node in BST by Node Value
+    #
+    # @arg searchNodeval : Value of the Node to be searched for
+    # @ret Reeturns the Id of the Node when found, 0 otherwise
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def searchNode(self, searchNodeVal):
+        LOG_DEBUG("================================", 
+            self.debugMode)
+        LOG_DEBUG("OPERATION : Search " +str(searchNodeVal),
+            self.debugMode)
+        
+        rootNode = self.__rootNodePtr
+        
+        # Node found in the root node (Good News!)
+        if rootNode.getValue() == searchNodeVal:
+            LOG_DEBUG("Search Node: " + str(searchNodeVal) + 
+                "Found in Root Node" + str(rootNode.getId()),self.debugMode)
+            return rootNode.getId()
+        return self.__searchInChildren(rootNode, searchNodeVal)
+
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Get all the child nodes for a given Parent node
+    #
+    # @arg parentNode : Parent Node whose children we want to get
+    # @ret Returns the Children in a List []
+    #      Returns an empty List [] is there's no children
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def getChildrenNodes(self, parentNode):
+        LOG_DEBUG("================================", 
+            self.debugMode)
+        LOG_DEBUG("OPERATION : GetAllChildren " +str(parentNode.getValue()),
+            self.debugMode)
+        
+        assert(isinstance(parentNode, Node))
+        children = []                
+        return self.__getChildren(parentNode, children)
+
+
+    def getRootNode(self):
+        return self.__rootNodePtr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ## - - - - - - - - PRIVATE METHODS - - - - - - - - - - - -##
+    
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Get all the child nodes for a given Parent node
+    #
+    # @arg parentNode : Parent Node whose children we want to get
+    # @arg childrenList : List of Children, this is taken by ref and returned
+    #                     by the method
+    # @ret Returns the Children in a List []
+    #      Returns an empty List [] is there's no children
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def __getChildren(self, parentNode, childrenList):
+        assert(isinstance(parentNode, Node))
+
+        if not parentNode.hasAnyChildren():
+            LOG_DEBUG("NO CHILD FOR PARENT : " + str(parentNode.getValue()),self.debugMode)
+        
+        else:
+            if parentNode.hasLeftChild():
+                LOG_DEBUG("FOUND LEFT-CHILD : " + str(parentNode.getLeftChild().getValue()) +
+                    " FOR PARENT : " + str(parentNode.getValue()),self.debugMode)
+                childrenList.append(parentNode.getLeftChild())
+                self.__getChildren(parentNode.getLeftChild(), childrenList)
+        
+            if parentNode.hasRightChild():
+                LOG_DEBUG("FOUND RIGHT-CHILD : " + str(parentNode.getRightChild().getValue()) +
+                    " FOR PARENT : " + str(parentNode.getValue()),self.debugMode)
+                childrenList.append(parentNode.getRightChild())
+                self.__getChildren(parentNode.getLeftChild(), childrenList)
+        
+        return childrenList
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Helper function for searching
+    # 
+    # @arg parentNode : the Parent Node whose children are  to be searched for
+    # @arg searchNodeval : Value of the Node to be searched for
+    # @ret Returns the Id of the Node when found, 0 otherwise
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def __searchInChildren(self, parentNode, searchNodeVal):
+        assert(isinstance(parentNode, Node))
+        
+        # Parent has no children to compare with
+        if not parentNode.hasAnyChildren():
+            LOG_DEBUG("Parent Node: " + str(parentNode.getValue()) + 
+                    " Has NO CHILDREN ", self.debugMode)
+            return 0
+        
+        # Search in LEFT-SUBTREE
+        if searchNodeVal <= parentNode.getValue():
+            LOG_DEBUG("Searching in LEFT-SUBTREE ", self.debugMode)
+            leftCh = parentNode.getLeftChild()
+            return self.__searchInNode(leftCh, searchNodeVal)
+        
+        # Search in RIGHT-SUBTREE
+        else:
+            LOG_DEBUG("Searching in RIGHT-SUBTREE ", self.debugMode)
+            rightCh = parentNode.getRightChild()
+            return self.__searchInNode(rightCh, searchNodeVal)
+
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Helper function for searching
+    # 
+    # @arg parentNode : the Parent Node whose children are also to be searched recursively
+    #                   Searchs in the parent Node and the cotinue the search on 
+    #                   Its chilren nodes
+    # @arg searchNodeval : Value of the Node to be searched for
+    # @ret Returns the Id of the Node when found, 0 otherwise
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def __searchInNode(self, parentNode, searchNodeVal):
+        if parentNode is None:
+            return 0
+    
+        if (parentNode.getValue() == searchNodeVal):
+            LOG_DEBUG("Search Node: " + str(searchNodeVal) + 
+                " Found in Node " + str(parentNode.getId()),self.debugMode)
+            return parentNode.getId()
+        else:
+            LOG_DEBUG("Search Node: " + str(searchNodeVal) + 
+                " Not Found. Searching is Children of " + 
+                str(parentNode.getValue()),self.debugMode)
+            return self.__searchInChildren(parentNode,searchNodeVal)
 
     ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
