@@ -61,5 +61,8 @@ class TestBST(unittest.TestCase):
         #        /    \
         #             (96)
         self.assertEqual(bst.insertNode(60), 7)
+        self.assertEqual(bst.isEmpty(), False)
+        self.assertEqual(bst.getSize(), 7)
+        
 
 
