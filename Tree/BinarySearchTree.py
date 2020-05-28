@@ -134,7 +134,7 @@ class BinarySearchTree():
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     #
     # Get all the child nodes for a given Parent node
-    #
+    # THe traversal is Root -> Left -> Right
     # @arg parentNode : Parent Node whose children we want to get
     # @arg childrenList : List of Children, this is taken by ref and returned
     #                     by the method
@@ -145,10 +145,7 @@ class BinarySearchTree():
     def __getChildren(self, parentNode, childrenList):
         assert(isinstance(parentNode, Node))
 
-        if not parentNode.hasAnyChildren():
-            LOG_DEBUG("NO CHILD FOR PARENT : " + str(parentNode.getValue()),self.debugMode)
-        
-        else:
+        if parentNode.hasAnyChildren():
             if parentNode.hasLeftChild():
                 LOG_DEBUG("FOUND LEFT-CHILD : " + str(parentNode.getLeftChild().getValue()) +
                     " FOR PARENT : " + str(parentNode.getValue()),self.debugMode)
@@ -159,7 +156,7 @@ class BinarySearchTree():
                 LOG_DEBUG("FOUND RIGHT-CHILD : " + str(parentNode.getRightChild().getValue()) +
                     " FOR PARENT : " + str(parentNode.getValue()),self.debugMode)
                 childrenList.append(parentNode.getRightChild())
-                self.__getChildren(parentNode.getLeftChild(), childrenList)
+                self.__getChildren(parentNode.getRightChild(), childrenList)
         
         return childrenList
 
