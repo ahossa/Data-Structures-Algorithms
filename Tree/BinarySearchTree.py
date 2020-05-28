@@ -14,6 +14,25 @@ class BinarySearchTree():
     ## - - - - - - - - PUBLIC METHODS - - - - - - - - - - - -##
     
     ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    #
+    # @ret: Returns TRUE if BST is Empty
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def isEmpty(self):
+        return (self.__rootNodePtr is None and 
+            self.__size == 0)
+    
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    #
+    # @ret: Returns the size of the BST
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def getSize(self):
+        return self.__size
+    
+    ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
     #
     # Insert a Node into BST
@@ -49,7 +68,7 @@ class BinarySearchTree():
     # Search for a Node in BST by Node Value
     #
     # @arg searchNodeval : Value of the Node to be searched for
-    # @ret Reeturns the Id of the Node when found, 0 otherwise
+    # @ret Returns the Node when found, None otherwise
     #
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def searchNode(self, searchNodeVal):
@@ -64,7 +83,7 @@ class BinarySearchTree():
         if rootNode.getValue() == searchNodeVal:
             LOG_DEBUG("Search Node: " + str(searchNodeVal) + 
                 "Found in Root Node" + str(rootNode.getId()),self.debugMode)
-            return rootNode.getId()
+            return rootNode
         return self.__searchInChildren(rootNode, searchNodeVal)
 
 
@@ -151,7 +170,7 @@ class BinarySearchTree():
     # 
     # @arg parentNode : the Parent Node whose children are  to be searched for
     # @arg searchNodeval : Value of the Node to be searched for
-    # @ret Returns the Id of the Node when found, 0 otherwise
+    # @ret Returns the Node when found, None otherwise
     #
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def __searchInChildren(self, parentNode, searchNodeVal):
@@ -161,7 +180,7 @@ class BinarySearchTree():
         if not parentNode.hasAnyChildren():
             LOG_DEBUG("Parent Node: " + str(parentNode.getValue()) + 
                     " Has NO CHILDREN ", self.debugMode)
-            return 0
+            return None
         
         # Search in LEFT-SUBTREE
         if searchNodeVal <= parentNode.getValue():
@@ -185,17 +204,17 @@ class BinarySearchTree():
     #                   Searchs in the parent Node and the cotinue the search on 
     #                   Its chilren nodes
     # @arg searchNodeval : Value of the Node to be searched for
-    # @ret Returns the Id of the Node when found, 0 otherwise
+    # @ret Returns the Node when found, None otherwise
     #
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def __searchInNode(self, parentNode, searchNodeVal):
         if parentNode is None:
-            return 0
+            return None
     
         if (parentNode.getValue() == searchNodeVal):
             LOG_DEBUG("Search Node: " + str(searchNodeVal) + 
                 " Found in Node " + str(parentNode.getId()),self.debugMode)
-            return parentNode.getId()
+            return parentNode
         else:
             LOG_DEBUG("Search Node: " + str(searchNodeVal) + 
                 " Not Found. Searching is Children of " + 
@@ -304,25 +323,6 @@ class BinarySearchTree():
     #
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     #def removeNode(self, key):
-    
-    ##                    ##
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-    #
-    # @ret: Returns TRUE if BST is Empty
-    #
-    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
-    def isEmpty(self):
-        return (self.__rootNodePtr is None and 
-                self.__size == 0)
-    
-    ##                    ##
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-    #
-    # @ret: Returns the size of the BST
-    #
-    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
-    def getSize(self):
-        return self.__size
     
     
 
