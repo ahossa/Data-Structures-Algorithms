@@ -3,7 +3,7 @@
 ## created: 05.03.2020 THURSDAY 
 
 import unittest
-from .BinarySearchTree import BinarySearchTree as Tree
+from .BinarySearchTree import BinarySearchTree as BST
 
 
 class TestBST(unittest.TestCase):
@@ -12,21 +12,54 @@ class TestBST(unittest.TestCase):
     def test_Insertion(self):
         print("TEST BST: Testing Insertion Start")
 
-        tree = Tree()
+        ## NOTE : Turn on the Debug Statements to see 
+        #         How Each node is inserted
+        
+        bst = BST()
+        self.assertEqual(bst.isEmpty(), True)
+        
         #     (90)
-        self.assertEqual(tree.insertNode(90), 1)
-
+        self.assertEqual(bst.insertNode(90), 1)
+        self.assertEqual(bst.isEmpty(), False)
+        self.assertEqual(bst.getSize(), 1)
+        
         #      (90)
         #    /      \
         #            (99)
-        self.assertEqual(tree.insertNode(99), 2)
+        self.assertEqual(bst.insertNode(99), 2)
         #      (90)
         #     /     \
         #  (65)     (99)
-        self.assertEqual(tree.insertNode(65), 3)
+        self.assertEqual(bst.insertNode(65), 3)
         #      (90)
         #     /     \
         #  (65)     (99)
         #  /  \     /   \
         #         (95)
-        self.assertEqual(tree.insertNode(95), -3)
+        self.assertEqual(bst.insertNode(95), 4)
+        #      (90)
+        #     /     \
+        #  (65)     (99)
+        #  /  \     /   \
+        #         (95)
+        #        /    \
+        #             (96)
+        self.assertEqual(bst.insertNode(96), 5)
+        #      (90)
+        #     /     \
+        #  (65)     (99)
+        #  /  \     /   \
+        #    (89) (95)
+        #        /    \
+        #             (96)
+        self.assertEqual(bst.insertNode(89), 6)
+        #      (90)
+        #     /     \
+        #  (65)     (99)
+        #  /  \     /   \
+        #(60) (89)(95)
+        #        /    \
+        #             (96)
+        self.assertEqual(bst.insertNode(60), 7)
+
+

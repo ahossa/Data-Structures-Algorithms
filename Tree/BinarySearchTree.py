@@ -1,69 +1,118 @@
-from .BstNode import BstNode as Node 
+from .TreeNode import TreeNode as Node 
+from Debug import LOG_DEBUG
 
 class BinarySearchTree():
 
-    # constructor
+    ## Constructor
     def __init__(self):
         self.rootNodePtr = None
+        self.size = 0
+
+        # Set this to True for Debug Statements
+        self.debugMode = True
     
-    # simply insert this Node into the BST
-    # Explanation: 
-    # If the rootnode pointer is empty, the rootNodePtr points to newNode
-    # If theres rootNode, Larger number than rootNode Value goes Right
-    #   else goes left
-    # ReturnCode : 1 = Root, 2 = RightSubTree, 3 = LeftSubTree
-    def insertNode(self, newNodeValue):
-        newNode = Node(newNodeValue)
     
-        # rootNode Empty
-        if not self.rootNodePtr:
-            self.rootNodePtr = newNode
-            return 1
+    # Insert a Node into BST
+    # Returns the Id of the newly inserted Node
+    # Id 1 starts from Root and follows insertion sequence
+    # for Id assignment
+    def insertNode(self, newNodeValue):     
+        # If root is empty or Size 0 that means BST is empty
+        # In that case insert the Node at Root
+        if (self.rootNodePtr is None and 
+            self.size == 0):
+            
+            LOG_DEBUG("Inserting Root Node" + str(newNodeValue),
+                    self.debugMode)
+            self.rootNodePtr = Node(1,newNodeValue)
+            self.size += 1
+            return self.rootNodePtr.getId()
         
         rootNode = self.rootNodePtr
-        if newNode.value > rootNode.value :
-            return self.insertIntoRightSubtree(rootNode.rightChildPtr, newNode)
-        else:
-            return self.insertIntoLeftSubtree(rootNode.leftChildPtr, newNode)
+        return self.insert(rootNode, newNodeValue);
 
-
-    # insert node into Right Subtree
-    def insertIntoRightSubtree(self, nodePtr, newNode):
-        if not nodePtr:
-                nodePtr = newNode
-                return 2
+    ###
+    # Helper function to insert the NewNode value into a parent node
+    def insert(self, parentNode, newNodeVal):      
+        assert(isinstance(parentNode, Node))
         
-        rightNode = nodePtr
-        if newNode.value > rightNode.value:
-            return self.insertIntoRightSubtree(rightNode.rightChildPtr, newNode)
-        else:
-            return self.insertIntoLeftSubtree(rightNode.leftChildPtr, newNode)
+        ## If New Node <= Parent Node, Go to Left Sub-Tree 
+        if newNodeVal <= parentNode.getValue():
+            return self.insertIntoLeftSubtree(parentNode, newNodeVal)
+
+        
+        ## If New Node > Parent Node, Go to Right Sub-Tree 
+        if newNodeVal > parentNode.getValue() :
+            return self.insertIntoRightSubtree(parentNode, newNodeVal)
     
+    ###
+    # Helper Function to Insert a Node into Left Subtree
+    def insertIntoLeftSubtree(self, parentNode, newNodeVal):
+        
+        # Make sure ParentNode is an instance of Node Class
+        assert(isinstance(parentNode, Node))
 
-    # insert Node into Left Sub Tree
-    def insertIntoLeftSubtree(self, nodePtr, newNode):
-        if not nodePtr:
-                nodePtr = newNode
-                return 3
+        LOG_DEBUG ("NewNode " + str(newNodeVal) +
+                " <= ParentNode " + str(parentNode.getValue()),
+                self.debugMode)
         
-        leftNode = nodePtr
-        if newNode.value > leftNode.value:
-            return self.insertIntoRightSubtree(leftNode.rightChildPtr, newNode)
+        if parentNode.hasLeftChild():
+            LOG_DEBUG("Parent " + str(parentNode.getValue()) + 
+                    " has left child", self.debugMode)
+            return self.insert(parentNode.getLeftChild(), newNodeVal)
+        
         else:
-            return self.insertIntoLeftSubtree(leftNode.leftChildPtr, newNode)
-     
-        
+            LOG_DEBUG("Inserting Child " + str(newNodeVal) +
+                    " To left of " + str(parentNode.getValue()),
+                    self.debugMode)
+            self.size += 1
+            LOG_DEBUG("Current Size " + str(self.size), self.debugMode)
+            parentNode.setLeftChild(
+                Node(self.size, newNodeVal) 
+            )
+            return parentNode.getLeftChild().getId()
     
+    ###
+    # Helper Function to Insert a Node into Right Subtree
+    def insertIntoRightSubtree(self, parentNode, newNodeVal):
+        
+        # Make sure ParentNode is an instance of Node Class        
+        assert(isinstance(parentNode, Node))
+        
+        LOG_DEBUG("NewNode " + str(newNodeVal) +
+                " > ParentNode " + str(parentNode.getValue()),
+                self.debugMode)
+        
+        if parentNode.hasRightChild():
+            LOG_DEBUG("Parent " + str(parentNode.getValue()) + 
+                    " has rght child", self.debugMode)
+            return self.insert(parentNode.getRightChild(), newNodeVal)
+        
+        else:
+            LOG_DEBUG("Inserting Child " + str(newNodeVal) +
+                    " To right of " + str(parentNode.getValue()), 
+                    self.debugMode)
+            
+            self.size += 1
+            LOG_DEBUG("Current Size " + str(self.size), self.debugMode)
+            parentNode.setRightChild(
+                Node(self.size, newNodeVal)
+            )
+            return parentNode.getRightChild().getId()
+
     #def searchNode(self, key):
     
 
     #def removeNode(self, key):
-    
-    
-    
-    
+     
+    # Returns TRUE if BST is Empty
     def isEmpty(self):
-        return self.root is None
+        return (self.rootNodePtr is None and 
+                self.size == 0)
+    
+    # Get the size of the BST
+    def getSize(self):
+        return self.size
     
     
 

@@ -44,6 +44,7 @@ class TreeNode():
     ####
     # Sets the Left child for Node 
     def setLeftChild(self, leftChNode):
+        assert(isinstance(leftChNode, TreeNode))
         self.leftChild = leftChNode
         leftChNode.parent = self
 
@@ -55,6 +56,7 @@ class TreeNode():
     ####
     # Sets the Right child for Node 
     def setRightChild(self, rgtChNode):
+        assert(isinstance(rgtChNode, TreeNode))
         self.rightChild = rgtChNode
         rgtChNode.parent = self
     
