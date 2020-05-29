@@ -92,7 +92,7 @@ class TreeNode():
     # 
     # Returns TRUE if node is a leaf
     def isLeaf(self):
-        return not (self.leftChild and self.rightChild)
+        return (self.leftChild is None and self.rightChild is None)
     
     ####
     # Returns TRUE is Node has any Children

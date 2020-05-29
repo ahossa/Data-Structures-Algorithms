@@ -95,10 +95,34 @@ class TestBST(unittest.TestCase):
             self.assertLessEqual(List[0].getValue(), node.getValue())      # 60 is the smallest number
             self.assertGreaterEqual(List[5].getValue(), node.getValue())   # 96 is the largest number
 
+        # TEST BST GET SMALLEST & LARGEST
+        self.assertEqual(bst.getSmallestNode().getValue(), 60);            # 60 is the Smallest in current BST 
+        self.assertEqual(bst.getLargestNode().getValue(), 96);             # 96 is the Largest in current BST 
 
+        # TEST ANCESTORS
+        ancestorsList = bst.getAncestors(bst.getLargestNode())
+        self.assertEqual(len(ancestorsList), 2)
+        self.assertEqual(ancestorsList[0].getValue(), 95);            
+        self.assertEqual(ancestorsList[1].getValue(), 90);            
+        self.assertEqual(bst.getAncestors(bst.getRootNode()), []);        # Root node has no ancestor            
 
+        # TEST GET LEAF NODES
+        leafNodesList= bst.getLeafNodes();
+        self.assertEqual(len(leafNodesList), 3)
+        self.assertEqual(leafNodesList[0].getValue(), 60);            
+        self.assertEqual(leafNodesList[1].getValue(), 89);     
+        self.assertEqual(leafNodesList[2].getValue(), 96);     
 
-
+        # HEIGHT OF BST
+        #      (90)
+        #     /     \
+        #  (65)     (95)
+        #  /  \     /   \
+        #(60) (89)      (96)
+        #                  \
+        #                  (100)
+        bst.insertNode(100)
+        self.assertEqual(bst.getHeight(), 3) 
         
 
 

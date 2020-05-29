@@ -143,11 +143,147 @@ class BinarySearchTree():
         assert(isinstance(rootNode, Node))
         traversedList = []
         return self.__traverseNodesInorder(rootNode, traversedList)
-    
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Get the Largest Node of the BST or for a given Root Node
+    #
+    # @arg rootNodeIn : Optional Param, when provided, Root Node whose largest value
+    #                   we're looking for. Mainly used for resursive calls
+    # @ret Returns the LARGEST NODE
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # # 
+    def getLargestNode(self, rootNodeIn = None):
+        rootNode = self.getRootNode()
+        
+        if rootNodeIn is not None:
+            rootNode = rootNodeIn
+        
+        assert(isinstance(rootNode, Node))
+        if rootNode.hasRightChild():
+            return self.getLargestNode(rootNode.getRightChild())
+        
+        return rootNode 
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Get the Smallest Node of the BST or for a given Root Node
+    #
+    # @arg rootNodeIn : Optional Param, when provided, Root Node whose smallest value
+    #                   we're looking for. Mainly used for resursive calls
+    # @ret Returns the SMALLEST NODE
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # # 
+    def getSmallestNode(self, rootNodeIn = None):
+        rootNode = self.getRootNode()
+        
+        if rootNodeIn is not None:
+            rootNode = rootNodeIn
+        
+        assert(isinstance(rootNode, Node))
+        if rootNode.hasLeftChild():
+            return self.getSmallestNode(rootNode.getLeftChild())
+        
+        return rootNode 
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Get Ancestors for a given Node
+    #
+    # @arg node : Node whose ascestor we're looking for
+    # @ret Returns a list of Ancestors
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def getAncestors(self, node):
+        LOG_DEBUG("================================", self.debugMode)
+        LOG_DEBUG("SEARCH ANCESTOR : FOR " +str(node.getValue()),self.debugMode)
+        
+        assert(isinstance(node, Node))
+
+        ancestorsList = []
+        currentNode = self.searchNode(node.getValue())
+        
+        if not currentNode:
+            LOG_DEBUG(str(node.getValue()) + " Not Found, so no Ancestor", self.debugMode)
+            return ancestorsList
+        
+        while currentNode.getParent() is not None:
+            LOG_DEBUG("Ancestor : " + str(currentNode.getParent().getValue()) + " Found for Node " +
+                str(currentNode.getValue()), self.debugMode)
+            currentNode = currentNode.getParent()            
+            ancestorsList.append(currentNode)
+        
+        return ancestorsList
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Get Leaf Nodes for a BST
+    # @ret Returns a list of leaf nodes
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # # 
+    def getLeafNodes(self):
+        rootNode = self.getRootNode()
+        leafNodesList = []
+        
+        if rootNode is None:
+            return leafNodesList
+        return self.__getLeafNodes(rootNode, leafNodesList)
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Returns the HEIGHT of a BST
+    # @ret Returns the height of BST
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # # 
+    def getHeight(self):
+
+        # Get the Leaf Nodes. Get AncestorsList for each Leaf-Node. 
+        # The length of the AncestorsList is the Height for that leaf
+        # Take the largest of those heights
+        leafNodes = self.getLeafNodes()
+        heightBst = -1
+        
+        for leaf in leafNodes:
+            ancestorList = self.getAncestors(leaf)
+            ancestorLength = len(ancestorList)
+
+            if ancestorLength > heightBst:
+                heightBst = ancestorLength
+
+        return heightBst
+
 
 
     ## - - - - - - - - PRIVATE METHODS - - - - - - - - - - - -##
     
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Helper function to Get Leaf Nodes for a BST
+    #
+    # @ret Returns a list of leaf nodes
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # # 
+    def __getLeafNodes(self, parentNode, leafNodesList):
+        assert(isinstance(parentNode, Node))
+
+        if parentNode.hasLeftChild():
+            self.__getLeafNodes(parentNode.getLeftChild(), leafNodesList)
+        
+        if parentNode.isLeaf():
+            LOG_DEBUG("LEAF FOUND :" + str(parentNode.getValue()), self.debugMode)
+            leafNodesList.append(parentNode)
+        
+        if parentNode.hasRightChild():
+            self.__getLeafNodes(parentNode.getRightChild(), leafNodesList)
+             
+        return leafNodesList
+        
     ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     #
