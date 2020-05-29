@@ -59,7 +59,7 @@ class TestTreeNode(unittest.TestCase):
         self.assertEqual(node2.getLeftChild().getId(), 1)
         self.assertEqual(node2.getLeftChild().getValue(), 'A')        
         self.assertEqual(node2.getRightChild(), None)
-
+        
         # 3 as left child
         #      (2)
         #     /     \
@@ -87,6 +87,11 @@ class TestTreeNode(unittest.TestCase):
         self.assertEqual(node2.getLeftChild().getParent().getId(), 2)
         self.assertEqual(node2.getLeftChild().getParent().getValue(), 'B')
 
+        # LEFT - RIGHT Child Relationship
+        self.assertEqual(node1.isRightChild(), False)
+        self.assertEqual(node1.isLeftChild(), True)
+        self.assertEqual(node1.isEqual(node2), False)
+        
         print("TEST TREE-NODE: Testing Child Methods Complete")
 
 

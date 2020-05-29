@@ -73,8 +73,16 @@ class TestBST(unittest.TestCase):
         children = bst.getChildrenNodes(bst.getRootNode())
         self.assertEqual(len(children), 6)
 
-        for child in children:
-            child.debugPrint(True)
+
+        #      (90)
+        #     /     \
+        #  (65)     (95)
+        #  /  \     /   \
+        #(60) (89)      (96)
+        self.assertEqual(bst.deleteNode(99).getId(), 2)
+        self.assertEqual(bst.searchNode(95).getId(), 5)
+        self.assertEqual(bst.searchNode(96).getId(), 6)
+
 
 
         

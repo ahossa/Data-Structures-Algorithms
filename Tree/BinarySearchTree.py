@@ -9,29 +9,26 @@ class BinarySearchTree():
         self.__size = 0
 
         # Set this to True for Debug Statements
-        self.debugMode = True
+        self.debugMode = False
     
     ## - - - - - - - - PUBLIC METHODS - - - - - - - - - - - -##
     
-    ##                    ##
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-    #
-    # @ret: Returns TRUE if BST is Empty
-    #
-    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    ###
+    # Returns TRUE if BST is Empty
     def isEmpty(self):
         return (self.__rootNodePtr is None and 
             self.__size == 0)
     
-    ##                    ##
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-    #
-    # @ret: Returns the size of the BST
-    #
-    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    ###
+    # Returns the Size of BST
     def getSize(self):
         return self.__size
     
+    ###
+    # Returns the RootNode of BST
+    def getRootNode(self):
+        return self.__rootNodePtr
+
     ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
     #
@@ -90,11 +87,32 @@ class BinarySearchTree():
     ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     #
+    # Delete a Node in BST by Node Value
+    #
+    # @arg delNodeVal : Value of the Node to be Deleted
+    # @ret Returns the Node when deleted, None otherwise
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def deleteNode(self, delNodeVal):
+        LOG_DEBUG("================================", self.debugMode)
+        LOG_DEBUG("OPERATION : DELETE " +str(delNodeVal), self.debugMode)
+        
+        if (delNodeVal is None or
+            self.__rootNodePtr is None):
+            return None
+        
+        rootNode = self.__rootNodePtr
+        return self.__deleteNode(rootNode, delNodeVal)
+    
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
     # Get all the child nodes for a given Parent node
     #
     # @arg parentNode : Parent Node whose children we want to get
     # @ret Returns the Children in a List []
-    #      Returns an empty List [] is there's no children
+    #      Returns an empty List [] if there's no children
     #
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def getChildrenNodes(self, parentNode):
@@ -108,28 +126,69 @@ class BinarySearchTree():
         return self.__getChildren(parentNode, children)
 
 
-    def getRootNode(self):
-        return self.__rootNodePtr
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
     ## - - - - - - - - PRIVATE METHODS - - - - - - - - - - - -##
     
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Helper Function for DeleteNode
+    #
+    # @arg parentNode : Parent Node whose children needs to be looked at for del  
+    # @arg delNodeVal : Value of the Node to be Deleted
+    # @ret Returns the Node when deleted, None otherwise
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def __deleteNode(self, parentNode, delNodeVal):
+        assert(isinstance(parentNode, Node))
+
+        # Search for the node to delete and check if it exist
+        delNode = self.__searchInChildren(parentNode,delNodeVal)
+        if delNode is None:
+            LOG_DEBUG("Node : " + str(delNodeVal) + " Not Found to Delete", self.debugMode)
+            return None
+        
+        assert(isinstance(delNode, Node))
+        parent = delNode.getParent()
+
+        # Case 1: Node has no child
+        if not delNode.hasAnyChildren():
+            self.__size -= 1
+            if delNode.isRightChild():
+                LOG_DEBUG("Node :" + str(delNodeVal) + " Right Ch & Leaf", self.debugMode)
+                parent.setRightChild(None)
+                return delNode
+            elif delNode.isLeftChild():
+                LOG_DEBUG("Node :" + str(delNodeVal) + " Left Ch & Leaf", self.debugMode)
+                parent.setLeftChild(None)
+                return delNode
+            else:
+                # It must be root Node
+                return None
+            
+        # Case 2: Node has children
+        # Get all its child nodes and re-insert it into the BST
+        childrenList = self.getChildrenNodes(delNode)
+        self.__size = self.__size - len(childrenList) -1
+
+        if delNode.isRightChild():
+            LOG_DEBUG("Node :" + str(delNodeVal) + " Right Ch & Not Leaf", self.debugMode)
+            parent.setRightChild(None)
+        elif delNode.isLeftChild():
+            LOG_DEBUG("Node :" + str(delNodeVal) + " Left Ch & Not Leaf", self.debugMode)
+            parent.setLeftChild(None)
+        else:
+            return None
+        
+        # Re-Insert the Children, Ids will be re-assigned too
+        for child in childrenList:
+            LOG_DEBUG("Re-Inserting Child-Node :" + str(child.getValue()) + " After deletion", self.debugMode)
+            self.insertNode(child.getValue())
+        return delNode
+
     ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     #

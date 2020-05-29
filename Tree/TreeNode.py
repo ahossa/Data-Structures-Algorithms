@@ -46,9 +46,9 @@ class TreeNode():
     ####
     # Sets the Left child for Node 
     def setLeftChild(self, leftChNode):
-        assert(isinstance(leftChNode, TreeNode))
         self.leftChild = leftChNode
-        leftChNode.parent = self
+        if leftChNode is not None:
+            leftChNode.parent = self
 
     ####
     # Returns the Left child of the node
@@ -58,9 +58,9 @@ class TreeNode():
     ####
     # Sets the Right child for Node 
     def setRightChild(self, rgtChNode):
-        assert(isinstance(rgtChNode, TreeNode))
         self.rightChild = rgtChNode
-        rgtChNode.parent = self
+        if rgtChNode is not None:
+            rgtChNode.parent = self
     
     ####
     # Returns the Right child of the node
@@ -106,6 +106,31 @@ class TreeNode():
         return ( self.leftChild is not None and 
                  self.rightChild is not None)
     
+    ####
+    # Returns TRUE if this Node is the right child of its parent
+    def isRightChild(self):
+        parent = self.getParent()
+        if parent.hasRightChild():
+            return (parent.getRightChild().isEqual(self))
+        return False
+    
+    ####
+    # Returns TRUE if this Node is the left child of its parent
+    def isLeftChild(self):  
+        parent = self.getParent()
+        if parent.hasLeftChild():
+            return (parent.getLeftChild().isEqual(self))
+        return False
+    
+    ####
+    # Returns TRUE if the two Nodes are equal in value and Id
+    def isEqual(self, node):
+        assert(isinstance(node, TreeNode))
+        return (self.getId() == node.getId() and 
+            self.getValue() == node.getValue())
+    
+    ####
+    # Debug print statement for debug purpose
     def debugPrint(self, doPrintDebug):
         if doPrintDebug:
             LOG_DEBUG("=======================", doPrintDebug)
