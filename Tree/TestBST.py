@@ -9,12 +9,12 @@ from .BinarySearchTree import BinarySearchTree as BST
 class TestBST(unittest.TestCase):
     
     # Test queue peek related methods
-    def test_Insertion(self):
+    def test_BST(self):
         print("TEST BST: Testing Insertion Start")
 
-        ## NOTE : Turn on the Debug Statements to see 
-        #         How Each node is inserted
+        ## NOTE : Turn on the Debug Statements from BST constructor to see MAGIC!!
         
+        ## TEST BST INSERTION
         bst = BST()
         self.assertEqual(bst.isEmpty(), True)
         
@@ -64,15 +64,17 @@ class TestBST(unittest.TestCase):
         self.assertEqual(bst.isEmpty(), False)
         self.assertEqual(bst.getSize(), 7)
 
-        ## Searching
+        ## TEST BST SEARCHING
         self.assertEqual(bst.searchNode(96).getId(), 5)
         self.assertEqual(bst.searchNode(90).getId(), 1)
         self.assertEqual(bst.searchNode(69), None)
         
-        ## Get all children
+        ## TEST BST GET ALL CHILDREN
         children = bst.getChildrenNodes(bst.getRootNode())
         self.assertEqual(len(children), 6)
 
+
+        ## TEST BST DELETION
 
         #      (90)
         #     /     \
@@ -82,6 +84,18 @@ class TestBST(unittest.TestCase):
         self.assertEqual(bst.deleteNode(99).getId(), 2)
         self.assertEqual(bst.searchNode(95).getId(), 5)
         self.assertEqual(bst.searchNode(96).getId(), 6)
+        
+
+        # TEST BST IN-ORDER TRAVERSAL
+        List = bst.traverseNodesInorder(bst.getRootNode())
+        self.assertEqual(len(List), 6)
+        self.assertLessEqual(List[0].getValue(), List[1].getValue())      # 60 < 65
+        self.assertLessEqual(List[1].getValue(), List[2].getValue())      # 65 < 89
+        for node in List:
+            self.assertLessEqual(List[0].getValue(), node.getValue())      # 60 is the smallest number
+            self.assertGreaterEqual(List[5].getValue(), node.getValue())   # 96 is the largest number
+
+
 
 
 

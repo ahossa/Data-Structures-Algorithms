@@ -9,7 +9,7 @@ class BinarySearchTree():
         self.__size = 0
 
         # Set this to True for Debug Statements
-        self.debugMode = False
+        self.debugMode = True
     
     ## - - - - - - - - PUBLIC METHODS - - - - - - - - - - - -##
     
@@ -125,13 +125,60 @@ class BinarySearchTree():
         children = []                
         return self.__getChildren(parentNode, children)
 
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Traverse nodes is order and get them in a List
+    # This list will be ascending in values
+    # IN-ORDER = LEFT -> ROOT -> RIGHT (LEFT < ROOT < RIGHT)
+    #
+    # @arg rootNode : Root Node for the BST
+    # @ret Returns the Traversed Nodes List IN-ORDER
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
 
-
-
+    def traverseNodesInorder(self, rootNode):
+        LOG_DEBUG("================================", self.debugMode)
+        LOG_DEBUG("OPERATION : Traverse IN-ORDER FOR " +str(rootNode.getValue()),self.debugMode)
+        assert(isinstance(rootNode, Node))
+        traversedList = []
+        return self.__traverseNodesInorder(rootNode, traversedList)
+    
 
 
     ## - - - - - - - - PRIVATE METHODS - - - - - - - - - - - -##
     
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    #
+    # Helper method to traverse nodes IN-ORDER
+    # IN-ORDER = LEFT -> ROOT -> RIGHT (LEFT < ROOT < RIGHT)
+    #
+    # @arg parentNode : Parent Node whose childen (including the parent)
+    #                   Needs to be traversed
+    # @arg traversedList : List of Traversed Node 
+    # @ret Returns the Traversed Nodes List IN-ORDER
+    #
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def __traverseNodesInorder(self, parentNode, traversedList):
+        assert(isinstance(parentNode, Node))
+        
+
+        if parentNode.hasLeftChild():
+            LOG_DEBUG("Parent Node : " + str(parentNode.getValue())+ " Has Left Child " +
+                str(parentNode.getLeftChild().getValue()), self.debugMode)
+            self.__traverseNodesInorder(parentNode.getLeftChild(), traversedList)
+        
+        LOG_DEBUG("Appending Node : " + str(parentNode.getValue())+ " to the list ", self.debugMode)
+        traversedList.append(parentNode)
+        
+        if parentNode.hasRightChild():
+            LOG_DEBUG("Parent Node : " + str(parentNode.getValue())+ " Has right Child " +
+                str(parentNode.getRightChild().getValue()), self.debugMode)
+            self.__traverseNodesInorder(parentNode.getRightChild(), traversedList)
+        
+        return traversedList
+
     ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     #
