@@ -8,12 +8,13 @@ class Node:
     def __init__(self, id = None, val = None):
         self.__id = id
         self.__value = val
+
     
     def setValue(self, val):
         self.__value = val
     
     def getValue(self):
-        self.__value
+        return self.__value
     
     def setId(self, id):
         self.__id = id

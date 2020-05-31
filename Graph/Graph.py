@@ -4,10 +4,10 @@
 
 class Graph:
 
-    def setNode(self, nodeValue):
+    def addNode(self, nodeValue):
         pass
     
-    def setEdge(self, edge):
+    def addEdge(self, edge):
         pass
     
     def searchNode(self, nodeVal):
