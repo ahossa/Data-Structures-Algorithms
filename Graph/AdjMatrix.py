@@ -34,6 +34,8 @@ class AdjMatrix(Graph):
 
     def getNodesList(self):
         return self.__NodesList
+    def getEdgeList(self):
+        return self.__EdgeList
 
     def getNumNodes(self):
         return len(self.__NodesList)
@@ -58,11 +60,13 @@ class AdjMatrix(Graph):
     # Adds an Edge between the start & End Node
     # Adds given weight to the edge, else adds 1
     # Returns None upon failure, else returned the newly entered edge
-    def addEdge(self, startNode, endNode, weight = 0):
+    def addEdge(self, startNodeVal, endNodeVal, weight = 0):
         
         # Chk at 1st if the Nodes exist in the Graph
-        if (self.searchNode(startNode.getValue()) is None or 
-            self.searchNode(endNode.getValue()) is None):
+        startNode = self.searchNode(startNodeVal)
+        endNode = self.searchNode(endNodeVal)
+        
+        if ( startNode is None or endNode is None):
             return None
 
         edgeId = str(startNode.getId()) + str(endNode.getId())
@@ -85,14 +89,37 @@ class AdjMatrix(Graph):
         return None
     
 
-    # Search for an edge in the graph
-    def searchEdge(self, edge):
-        id = edge.getId()
-        if id in self.__EdgeList:
-            return self.__EdgeList[id]
+    # Search for an edge in the graph by providing an Edge Id
+    def searchEdgeById(self, edgeId):
+        if edgeId in self.__EdgeList:
+            return self.__EdgeList[edgeId]
     
+    # Search for an Edge in the Graph by providing Start & End sources
+    def searchEdgeBySource(self, startNodeVal, endNodeVal):
+        # Chk at 1st if the Nodes exist in the Graph
+        startNode = self.searchNode(startNodeVal)
+        endNode = self.searchNode(endNodeVal)
+        
+        if (startNode is None or endNode is None):
+            return None
+
+        edgeId = str(startNode.getId()) + str(endNode.getId())
+        return self.searchEdgeById(edgeId)
+
     def removeNode(self, nodeVal):
         pass
     
-    def removeEdge(self, edge):
-        pass
+    # Remove an Edge from the Graph by providing the Edge Id
+    def removeEdgeById(self, edgeId):
+        rmvEdge = self.searchEdgeById(edgeId)
+        if rmvEdge is None:
+            return None
+        self.__EdgeList.pop(edgeId)
+        return rmvEdge
+
+    def removeEdgeBySource(self, startNodeVal, endNodeVal):
+        rmvEdge = self.searchEdgeBySource(startNodeVal, endNodeVal)
+        if rmvEdge is None:
+            return None
+        self.__EdgeList.pop(rmvEdge.getId())
+        return rmvEdge

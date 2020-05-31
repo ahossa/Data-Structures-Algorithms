@@ -11,6 +11,9 @@ class Edge:
         self.__edgeWgt = weight
         self.__isDirected = isDirected    # Directed Edge by default
     
+    def getId(self):
+        return self.__edgeId
+        
     def getStartNode(self):
         return self.__startNode
     
