@@ -4,7 +4,8 @@
 
 import unittest
 from .AdjMatrix import AdjMatrix as Graph
-
+from .Node import Node
+from .Edge import Edge
 
 class TestAdjMatrix(unittest.TestCase):
     
@@ -103,5 +104,73 @@ class TestAdjMatrix(unittest.TestCase):
 
         self.assertEqual(len(edgeList), 0) # No Edges
 
+        ## TEST GET EDGE LIST BY START NODE
+        edge1 = graph.addEdge('A', 'C')
+        edge2 = graph.addEdge('A', 'B')
+        edge3 = graph.addEdge('O', 'A')
+
+        startNodeIn = Node(None, 'A')
+        edgeList = graph.getEdgesForStartNode(startNodeIn)
+        self.assertEqual(len(edgeList), 2) # 2 associated Edges
+        
+        # EDGE A->C
+        self.assertEqual(edgeList[0].getStartNode().getValue(), 
+                         edge1.getStartNode().getValue())
+        
+        self.assertEqual(edgeList[0].getEndNode().getValue(), 
+                         edge1.getEndNode().getValue())
+        
+        # EDGE A->B
+        self.assertEqual(edgeList[1].getStartNode().getValue(), 
+                         edge2.getStartNode().getValue())
+        
+        self.assertEqual(edgeList[1].getEndNode().getValue(), 
+                         edge2.getEndNode().getValue())
+        
+        ## TEST GET EDGE LIST BY END NODE
+        endNodeIn = Node(None, 'A')
+        edgeList = graph.getEdgesForEndNode(endNodeIn)
+        self.assertEqual(len(edgeList), 1) # 1 associated Edge
+        
+        # EDGE O->A
+        self.assertEqual(edgeList[0].getStartNode().getValue(), 
+                         edge3.getStartNode().getValue())
+        
+        self.assertEqual(edgeList[0].getEndNode().getValue(), 
+                         edge3.getEndNode().getValue())
+
+        ## TEST GET ALL EDGES ASSOCIATED WITH A NODE
+        edgeList = graph.getEdgesForNode(endNodeIn)
+        self.assertEqual(len(edgeList), 3) # 3 associated Edges
+
+        # EDGE A->C
+        self.assertEqual(edgeList[0].getStartNode().getValue(), 
+                         edge1.getStartNode().getValue())
+        
+        self.assertEqual(edgeList[0].getEndNode().getValue(), 
+                         edge1.getEndNode().getValue())
+        
+        # EDGE A->B
+        self.assertEqual(edgeList[1].getStartNode().getValue(), 
+                         edge2.getStartNode().getValue())
+        
+        self.assertEqual(edgeList[1].getEndNode().getValue(), 
+                         edge2.getEndNode().getValue())
+
+        # EDGE O->A
+        self.assertEqual(edgeList[2].getStartNode().getValue(), 
+                         edge3.getStartNode().getValue())
+        
+        self.assertEqual(edgeList[2].getEndNode().getValue(), 
+                         edge3.getEndNode().getValue())
+        
+
+        ## TEST REMOVE A NODE FROM THE GRAPH
+        nodeIn = Node(None, 'A')
+        nodeToRmv = graph.removeNode('A')
+        edgeList = graph.getEdgesForNode(nodeIn)
+        self.assertEqual(nodeToRmv.getValue(), 'A')           
+        self.assertEqual(len(edgeList), 0)            # All associated edges removed
+        self.assertEqual(len(graph.getEdgeList()), 0) # All edges removed, List Empty
 
 

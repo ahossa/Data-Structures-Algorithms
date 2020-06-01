@@ -1,4 +1,5 @@
 from .Node import Node
+from Debug import LOG_DEBUG
 
 class Edge:
     def __init__(self, startNode, endNode, id = None, weight = 0, isDirected = True):
@@ -28,3 +29,14 @@ class Edge:
     
     def setEdgeWgt(self, edgeWgt):
         self.__edgeWgt = edgeWgt
+    
+    def debugPrint(self, doShowDebugOutput):
+        LOG_DEBUG("======= GRAPH EDGE ========", doShowDebugOutput)
+        LOG_DEBUG("ID : " + str(self.getId()), doShowDebugOutput)
+        LOG_DEBUG("WGT : " + str(self.getEdgeWgt()), doShowDebugOutput)
+        
+        LOG_DEBUG("< START NODE >", doShowDebugOutput)        
+        self.getStartNode().debugPrint(doShowDebugOutput)
+        
+        LOG_DEBUG("< END NODE >", doShowDebugOutput)        
+        self.getEndNode().debugPrint(doShowDebugOutput)

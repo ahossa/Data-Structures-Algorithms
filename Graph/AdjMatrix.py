@@ -5,6 +5,7 @@
 from .Graph import Graph
 from .Node import Node
 from .Edge import Edge
+from Debug import LOG_DEBUG
 
 class AdjMatrix(Graph):
     def __init__(self):
@@ -138,9 +139,102 @@ class AdjMatrix(Graph):
         edgeId = str(startNode.getId()) + str(endNode.getId())
         return self.searchEdgeById(edgeId)
 
-    def removeNode(self, nodeVal):
-        pass
 
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    # Remove a Node from the Graph
+    # Also removed the Edges Connected to that Node
+    # 
+    # @arg nodeVal : Value of the Node to be removed
+    # @ret Returns a copy of the removed Node
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def removeNode(self, nodeVal):
+        
+        # We'd have to do 2 things
+        # Remove the Node + 
+        # Removed edges associated with that node
+        nodeToRmv = self.searchNode(nodeVal)
+        
+        if nodeToRmv is None:
+            return None
+
+        EdgesToRmvList = self.getEdgesForNode(nodeToRmv)
+        
+        # Remove the Edges 1st
+        for edgeToRmv in EdgesToRmvList:
+            self.removeEdgeById(edgeToRmv.getId())
+        
+        # now remove the node
+        self.__NodesList.remove(nodeToRmv)
+        return nodeToRmv
+    
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    # Get all the edges connected to a Node
+    # 
+    # @arg startNodeIn : Node Input for the Edge. 
+    #                    Only Value is compared for Edge Start or End Node
+    #                    When Node Id Provided, both Id & Value is compared 
+    #
+    # @ret Returns a List of Edges Starting with the provided Start Node
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def getEdgesForNode(self, nodeIn):
+        allEdgeList = self.getEdgeList().values()
+        edgeListForNode = []
+        for edge in allEdgeList:
+            startNode = edge.getStartNode()
+            endNode = edge.getEndNode()
+            if startNode.isEqual(nodeIn) or endNode.isEqual(nodeIn):
+                edgeListForNode.append(edge)
+        
+        return edgeListForNode
+
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    # Get all the edges connected to a Start Node
+    # 
+    # @arg startNodeIn : Start Node Input for the Edge. 
+    #                    Only Value is compared for for Edge Start Node
+    #                    When Node Id Provided, both Id & Value is compared 
+    #
+    # @ret Returns a List of Edges Starting with the provided Start Node
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def getEdgesForStartNode(self, startNodeIn):
+        
+        edgeList = self.getEdgeList().values()
+        edgeListForStartNode = []
+        
+        for edge in edgeList:
+            startNode = edge.getStartNode()
+            if startNode.isEqual(startNodeIn):
+                # LOG_DEBUG("MATCH FOUND", self.debugMode)
+                edgeListForStartNode.append(edge)
+        
+        return edgeListForStartNode
+    
+
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    # Get all the edges connected to an End Node
+    # 
+    # @arg endNodeIn : End Node Input for the Edge. 
+    #                  Only Value is compared for for Edge End Node
+    #                  When Node Id Provided, both Id & Value is compared 
+    #
+    # @ret Returns a List of Edges Ending with the provided End Node
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
+    def getEdgesForEndNode(self, endNodeIn):
+        edgeList = self.getEdgeList().values()
+        edgeListForEndNode = []
+        
+        for edge in edgeList:
+            endNode = edge.getEndNode()
+            if endNode.isEqual(endNodeIn):
+                edgeListForEndNode.append(edge)
+        
+        return edgeListForEndNode
 
     ##                    ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  

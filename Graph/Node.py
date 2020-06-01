@@ -22,6 +22,13 @@ class Node:
     def getId(self):
         return self.__id
     
+    def isEqual(self, otherNode):
+        if (self.getValue() == otherNode.getValue()):
+            if (otherNode.getId() is not None):
+                return self.getId() == otherNode.getId()
+            return True
+        return False
+        
     def debugPrint(self, doShowDebugOutput):
         LOG_DEBUG("GRAPH NODE", doShowDebugOutput)
         LOG_DEBUG("ID : " + str(self.getId()), doShowDebugOutput)
