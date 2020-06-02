@@ -5,15 +5,19 @@
 from .Graph import Graph
 from .Node import Node
 from .Edge import Edge
-from Debug import LOG_DEBUG
+
 
 class AdjMatrix(Graph):
     def __init__(self):
         self.__NodesList = []    # A 1D ARRAY of Nodes
 
-        # IDEA:
+        # # # 
+        # NOTE:
         # Creating a Dictionary might be more efficient in this regard
         # With Id Based insertion in the EdgeList
+        # I Know this isn't the Ideal AdjMatrix but rather 
+        # Optimized AdjMatrix I'd say. See the complexisy analysis
+        # for each methods
         self.__EdgeList = dict()    # A 2D MATRIX of EDGES, a dict is used to be more efficient
         
         self.debugMode = True
@@ -51,6 +55,8 @@ class AdjMatrix(Graph):
     #
     # @arg newNodeValue : Value for the new Node
     # @ret Returns a Copy of the Newly Created Node
+    #
+    # Time Complexity : O(1) [List Append]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def addNode(self, newNodeValue):
         # Add node to the NODES List 1st
@@ -70,6 +76,8 @@ class AdjMatrix(Graph):
     # @arg endNodeVal : Value of End Node
     # @arg weight : Optional Wgt for the created Edge. Default Wgt value 1
     # @ret Returns a copy of the newly created Edge
+    #
+    # Time Complexity : O(n) [Node-Search] + O(1) [Dict Insertion] = O(n)
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def addEdge(self, startNodeVal, endNodeVal, weight = 0):      
         # Chk at 1st if the Nodes exist in the Graph
@@ -98,6 +106,8 @@ class AdjMatrix(Graph):
     # @arg nodeVal : Value of the Node to be seared for
     # 
     # @ret Returns the node if Found, None otherwise
+    #
+    # Time Complexity : O(n) [List Retrieval]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def searchNode(self, nodeVal):
         for node in self.__NodesList:
@@ -113,6 +123,8 @@ class AdjMatrix(Graph):
     # 
     # @arg edgeId : Edge Id for the Edge to Search
     # @ret Returns the Edge if found, None otherwise
+    #
+    # Time Complexity : O(1) [Dict retrieval]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def searchEdgeById(self, edgeId):
         if edgeId in self.__EdgeList:
@@ -127,6 +139,8 @@ class AdjMatrix(Graph):
     # @arg startNodeVal : Value for Start Node 
     # @arg endNodeVal : Value for the End Node
     # @ret Returns the Edge if found, None otherwise
+    #
+    # Time Complexity : O(N) [Node-Search] + O(1) [Edge-Search]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def searchEdgeBySource(self, startNodeVal, endNodeVal):
         # Chk at 1st if the Nodes exist in the Graph
@@ -147,6 +161,9 @@ class AdjMatrix(Graph):
     # 
     # @arg nodeVal : Value of the Node to be removed
     # @ret Returns a copy of the removed Node
+    #
+    # Time Complexity : O(n) [Node-search] + O(n) [Edge-search] +
+    #                   O(1) [Edge-remove] + O(n) [Node-List-Rmv] = O(n)
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def removeNode(self, nodeVal):
         
@@ -177,7 +194,9 @@ class AdjMatrix(Graph):
     #                    Only Value is compared for Edge Start or End Node
     #                    When Node Id Provided, both Id & Value is compared 
     #
-    # @ret Returns a List of Edges Starting with the provided Start Node
+    # @ret Returns a List of Edges either Starting Or Ending with the given Node
+    #
+    # Time Complexity : O(n) [Dict Iteration]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def getEdgesForNode(self, nodeIn):
         allEdgeList = self.getEdgeList().values()
@@ -200,6 +219,8 @@ class AdjMatrix(Graph):
     #                    When Node Id Provided, both Id & Value is compared 
     #
     # @ret Returns a List of Edges Starting with the provided Start Node
+    #
+    # Time Complexity : O(n) [Dict Iteration]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def getEdgesForStartNode(self, startNodeIn):
         
@@ -224,6 +245,8 @@ class AdjMatrix(Graph):
     #                  When Node Id Provided, both Id & Value is compared 
     #
     # @ret Returns a List of Edges Ending with the provided End Node
+    #
+    # Time Complexity : O(n) [Dict Iteration]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def getEdgesForEndNode(self, endNodeIn):
         edgeList = self.getEdgeList().values()
@@ -242,6 +265,8 @@ class AdjMatrix(Graph):
     # 
     # @arg edgeId : Id for the Edge to be removed
     # @ret Returns a copy of the Removed Edge upon successful Delete, None otherwise
+    #
+    # Time Complexity : O(1) [Dict Removal]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def removeEdgeById(self, edgeId):
         rmvEdge = self.searchEdgeById(edgeId)
@@ -258,6 +283,8 @@ class AdjMatrix(Graph):
     # @arg startNodeVal : Edge Start node value
     # @arg endNodeVal: Edge End Node value
     # @ret Returns a copy of the Removed Edge upon successful Delete, None otherwise
+    #
+    # Time Complexity : O(1) [Dict Removal]
     # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def removeEdgeBySource(self, startNodeVal, endNodeVal):
         rmvEdge = self.searchEdgeBySource(startNodeVal, endNodeVal)

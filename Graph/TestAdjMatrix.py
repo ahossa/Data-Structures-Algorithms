@@ -5,7 +5,6 @@
 import unittest
 from .AdjMatrix import AdjMatrix as Graph
 from .Node import Node
-from .Edge import Edge
 
 class TestAdjMatrix(unittest.TestCase):
     
