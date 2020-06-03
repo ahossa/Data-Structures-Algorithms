@@ -4,7 +4,7 @@
 
 import unittest
 from .AdjMatrix import AdjMatrix as Graph
-from .Node import Node
+from .Node import GraphNode as Node
 
 class TestAdjMatrix(unittest.TestCase):
     

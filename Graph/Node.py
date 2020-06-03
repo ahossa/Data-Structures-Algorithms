@@ -4,7 +4,7 @@
 
 from Debug import LOG_DEBUG
 
-class Node:
+class GraphNode:
     def __init__(self, id = None, val = None):
         self.__id = id
         self.__value = val

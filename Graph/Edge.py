@@ -1,4 +1,4 @@
-from .Node import Node
+from .Node import GraphNode as Node
 from Debug import LOG_DEBUG
 
 class Edge:

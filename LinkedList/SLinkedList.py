@@ -2,7 +2,7 @@
 ## SLinkedList.py
 ## created: 10.02.2020 MONDAY
 
-from .Node import Node
+from .Node import LinkedListNode as Node
 
 class SLinkedList():
 
@@ -156,8 +156,10 @@ class SLinkedList():
 
     # Search List with Key
     # on found, returns the index. else returns -1
+    # index starts from 0, 0 = HeadNode
     # Time Comp: O(n)
     def searchList(self, key):
+        assert(isinstance(key, Node))
         tmpNode = self.pHeadNode.next
         ind = 0
         while tmpNode:
@@ -166,7 +168,6 @@ class SLinkedList():
             tmpNode = tmpNode.next
             ind += 1
         return -1
-
 
 # End SLinkedList()
 

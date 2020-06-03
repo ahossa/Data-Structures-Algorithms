@@ -3,7 +3,7 @@
 ## created: 10.02.2020 MONDAY 
 
 import unittest
-from .Node import Node
+from .Node import LinkedListNode as Node
 from .SLinkedList import SLinkedList
 
 

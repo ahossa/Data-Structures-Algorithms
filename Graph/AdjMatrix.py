@@ -3,11 +3,13 @@
 ## created: 29.05.2020 FRIDAY
 
 from .Graph import Graph
-from .Node import Node
+from .Node import GraphNode as Node
 from .Edge import Edge
 
 
 class AdjMatrix(Graph):
+
+    ## Constructor
     def __init__(self):
         self.__NodesList = []    # A 1D ARRAY of Nodes
 
