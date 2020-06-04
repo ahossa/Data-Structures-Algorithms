@@ -149,7 +149,27 @@ class AdjList(Graph):
         return edgeList[startNodeInd].searchList(LLendNode)  # Returns the found index
 
     
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    # Remove an Edge from the Graph by providing Start & End Node values
+    # 
+    # @arg startNodeVal : Value for Start Node 
+    # @arg endNodeVal : Value for the End Node
+    # @ret Returns the position of the deleted LLNode in EdgeList (headNode being 1)
+    #      Returns -1 if Edge or Nodes doesn't exist
+    #
+    # Time Complexity : O(N) [Node-Search] + O(E) [LL traversal for search] = O(N+E)
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # # #
+    def removeEdge(self, startNodeVal, endNodeVal):
+        doEdgeExist = self.searchEdge(startNodeVal, endNodeVal)
 
+        if (doEdgeExist ==  False or doEdgeExist == -1):
+            return -1
+        
+        startNode = self.searchNode(startNodeVal)
 
-    def removeEdge(self, edge):
-        pass
+        # index for NodeList & EdgeList is same for each Node
+        startNodeInd = startNode.getId()
+        LLendNode = LLNode(endNodeVal)
+        edgeList = self.getEdgeList()
+        return edgeList[startNodeInd].removeNode(LLendNode)

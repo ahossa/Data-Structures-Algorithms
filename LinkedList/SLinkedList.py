@@ -2,7 +2,13 @@
 ## SLinkedList.py
 ## created: 10.02.2020 MONDAY
 
+
+## THOUGHTS JUNE 4: I SERIOUSLY HAVE TO RE-FACTOR THIS ENTIRE CLASS ##
+##                  AND ADD SOME MORE IMPORTANT FUNCTIONALITY       ##
+
+
 from .Node import LinkedListNode as Node
+from Debug import LOG_DEBUG
 
 class SLinkedList():
 
@@ -11,6 +17,8 @@ class SLinkedList():
         # pHeadNode is just a ptr, HeadNode.next points to HeadNode
         self.pHeadNode = Node(None, 0)
 
+        self.debugMode = False # For debugging purposes
+    
     ##                    Insert Node at Head                           ##
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
     # (1)If HeadNode doesnt exist, add the node at Head and Make HeadNode
@@ -152,7 +160,7 @@ class SLinkedList():
 
     # Delete the Tail Node
     def popTailNode(self):
-        tmpNode = self.pHeadNode.next
+        pass
 
     # Search List with Key
     # on found, returns the index. else returns -1
@@ -168,6 +176,56 @@ class SLinkedList():
             tmpNode = tmpNode.next
             ind += 1
         return -1
+
+
+    # Remove Node from the LList
+    # Time Comp: O(n)
+    def removeNode(self, nodeToRmv):
+        assert(isinstance(nodeToRmv, Node))
+
+        LOG_DEBUG("LLIST NODE REMOVAL: Node " + str(nodeToRmv.value), self.debugMode)
+        LOG_DEBUG("======================================", self.debugMode)
+        LOG_DEBUG("LIST BEFORE NODE-RMV : " + self.debugPrint(False), self.debugMode)
+        nodeLocation = 1
+        # Check the HeadNode first
+        headNode = self.pHeadNode.next
+        if headNode.isEqual(nodeToRmv):
+            LOG_DEBUG("Node found at HEAD!", self.debugMode)
+            self.popHeadNode()
+            return nodeLocation               # Position of node removed
+        
+        LOG_DEBUG("Node NOT found at head " + str(headNode.value), self.debugMode)
+        # At this point we know its not the HeadNode and
+        # We need to iterate
+        iter1 = headNode
+        iter2 = iter1.next
+
+        while iter2:
+            nodeLocation += 1
+            
+            # We FOUND the node to rmv!
+            if iter2.isEqual(nodeToRmv):
+                LOG_DEBUG("Node found at location " + str(nodeLocation), self.debugMode)
+
+                # Re-Link
+                if iter2.next is not None:
+                    LOG_DEBUG("Linking " + str(iter1.value) + " with " + 
+                        str(iter2.next.value), self.debugMode)
+                    iter1.next = iter2.next
+                return nodeLocation
+            
+            LOG_DEBUG("Node NOT FOUND at location " + str(nodeLocation) +
+                " Value " + str(iter2.value), self.debugMode)
+            
+            # Move Iter1 & Iter2 to the next location
+            iter1 = iter2
+            iter2 = iter2.next
+        
+        # We could not Remove this node
+        return -1
+            
+
+        
 
 # End SLinkedList()
 

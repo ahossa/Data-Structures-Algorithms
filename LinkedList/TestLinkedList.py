@@ -49,6 +49,15 @@ class TestSLinkedList(unittest.TestCase):
         self.assertEqual(sll.peekHead(), "A")
         self.assertEqual(sll.popHeadNode(), "A")   # Z
         self.assertEqual(sll.peekHead(), sll.peekTail())
+
+        sll.insertHeadNode(Node("X"))              # X Z
+        sll.insertTailNode(Node("A"))              # X Z A
+        sll.insertTailNode(Node("B"))              # X Z A B
+        sll.insertTailNode(Node("C"))              # X Z A B C
+
+        self.assertEqual(sll.removeNode(Node("X")), 1) # Z A B C
+        self.assertEqual(sll.removeNode(Node("A")), 2) # Z B C
+        self.assertEqual(sll.removeNode(Node("C")), 3) # Z B
         print("TEST LINKED-LIST: Testing Deletion Complete")        
 
     

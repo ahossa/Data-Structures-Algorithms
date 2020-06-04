@@ -8,3 +8,7 @@ class LinkedListNode():
         self.next = None
         self.ind = ind
 
+    ## Check if the 2 nodes are equal
+    def isEqual(self, anotherNode):
+        return (self.value == anotherNode.value)
+    
