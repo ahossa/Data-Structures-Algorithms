@@ -4,7 +4,6 @@
 
 from .Graph import Graph
 from .Node import GraphNode as GphNode
-from .Edge import Edge
 from LinkedList.SLinkedList import SLinkedList as LList 
 from LinkedList.Node import LinkedListNode as LLNode 
 
@@ -15,7 +14,7 @@ class AdjList(Graph):
         self.__EdgeList = []     # An array of LinkedLists(of Ll-Nodes) with every node being the head of LList
                                  # So size of the edgeList is equal to sz of nodesList
 
-        self.debugMode = True
+        self.debugMode = False
     
     # # # # # # # # # # # # # # # # ACCESOR METHODS # # # # # # # # # # # # # # # # # # # # # # #  
 
@@ -90,8 +89,34 @@ class AdjList(Graph):
                 return node
         return None
     
+    ##                    ##
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    # Remove a Node from the Graph
+    # Also removed the Edges Connected to that Node
+    # 
+    # @arg nodeVal : Value of the Node to be removed
+    # @ret Returns a copy of the removed Node on successful remove
+    #      None otherwise
+    #
+    # Time Complexity : O(n) [Node-search] 
+    #                   O(n) [Edge-remove] + O(n) [Node-List-Rmv] = O(n)
+    # # # # # # # # # # # # # # ## # # # # # # # # ## # # # # # # # # # # # # # #
     def removeNode(self, nodeVal):
-        pass
+        
+        # We'd have to do 2 things
+        # Remove the Node + 
+        # Removed edges associated with that node
+        nodeToRmv = self.searchNode(nodeVal)
+        
+        if nodeToRmv is None:
+            return None
+
+        # Rmv the edges 1st
+        self.__EdgeList.pop(nodeToRmv.getId())
+                
+        # now remove the node
+        self.__NodesList.remove(nodeToRmv)
+        return nodeToRmv
 
     # # # # # # # # # # # # # # # # EDGE METHODS # # # # # # # # # # # # # # # # # # # # # # #  
 
@@ -173,3 +198,12 @@ class AdjList(Graph):
         LLendNode = LLNode(endNodeVal)
         edgeList = self.getEdgeList()
         return edgeList[startNodeInd].removeNode(LLendNode)
+
+    
+    def getEdgesForNode(self, edgeStartNodeVal):
+        edgeStartNode = self.searchNode(edgeStartNodeVal)
+        if edgeStartNode is None:
+            return None
+        
+        edgeStartNodeId = edgeStartNode.getId()
+        return self.__EdgeList[edgeStartNodeId]   # Returns the LinkedList

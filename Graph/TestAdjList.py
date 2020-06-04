@@ -10,12 +10,14 @@ from LinkedList.Node import LinkedListNode as LLNode
 class TestAdjList(unittest.TestCase):
     
     def test_AdjMatrix(self):
-        print("TEST ADJ LIST GRAPH")
-
         ## NOTE : Turn on the Debug Statements from constructor to see MAGIC!!
         
         ## TEST Graph constructor
         graph = Graph()
+
+        if graph.debugMode:
+            print("TEST ADJ-LIST GRAPH")
+        
         self.assertEqual(graph.isEmpty(), True)
         self.assertEqual(graph.getNumNodes(), 0)
         self.assertEqual(graph.getNumEdges(), 0)
@@ -70,3 +72,19 @@ class TestAdjList(unittest.TestCase):
         self.assertEqual(graph.removeEdge('O', 'E'), -1)   # Node 'E' Doesn't exist -> O C B
         self.assertEqual(graph.removeEdge('O', 'C'), 2)    # Would rmv C & return pos 2 -> O B
         self.assertEqual(graph.removeEdge('O', 'B'), 2)    # Would rmv B & return pos 2 -> O . Node "O" has no edge at this point
+
+
+        ## TEST NODE REMOVAL
+        self.assertEqual(graph.removeNode('J'), None)                 # Node 'J' Doesn't exist -> O C
+        self.assertEqual(graph.removeNode('O').getValue(), 'O')       
+        self.assertEqual(graph.searchNode('O'), None)                # This node doesn't exist, its been deleted
+
+        edgeList = graph.getEdgeList()
+        
+        # Debug output to see the nodes and edges
+        if graph.debugMode:
+            for iter in edgeList:
+                iter.debugPrint(True)
+
+        if graph.debugMode:
+            print("TEST ADJ LIST GRAPH COMPLETE!")

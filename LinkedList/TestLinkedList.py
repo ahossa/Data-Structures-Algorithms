@@ -29,7 +29,8 @@ class TestSLinkedList(unittest.TestCase):
         self.assertEqual(sll.debugPrint(), "44 43 77 2 55")
         self.assertEqual(sll.searchList(Node(2)), 3)        
         self.assertEqual(sll.searchList(Node(111)), -1)
-        print("TEST LINKED-LIST: Testing Insertion Complete")        
+        if sll.debugMode:
+            print("TEST LINKED-LIST: Testing Insertion Complete")        
  
 
     def test_Peek(self):
@@ -39,7 +40,8 @@ class TestSLinkedList(unittest.TestCase):
         sll.insertHeadNode(Node(40))
         self.assertEqual(sll.peekHead(), 40)
         self.assertEqual(sll.peekTail(), 30)
-        print("TEST LINKED-LIST: Testing Peek Complete")        
+        if sll.debugMode:
+            print("TEST LINKED-LIST: Testing Peek Complete")        
 
     
     def test_deletion(self):
@@ -58,7 +60,8 @@ class TestSLinkedList(unittest.TestCase):
         self.assertEqual(sll.removeNode(Node("X")), 1) # Z A B C
         self.assertEqual(sll.removeNode(Node("A")), 2) # Z B C
         self.assertEqual(sll.removeNode(Node("C")), 3) # Z B
-        print("TEST LINKED-LIST: Testing Deletion Complete")        
+        if sll.debugMode:
+            print("TEST LINKED-LIST: Testing Deletion Complete")        
 
     
     def test_data_access(self):
@@ -75,7 +78,9 @@ class TestSLinkedList(unittest.TestCase):
         self.assertEqual(sll.getHeadNode().value, 75) # 75 99 69 65
         self.assertEqual(sll.getNode(2).value, 99)
         self.assertEqual(sll.debugPrint(), "75 99 69 65")
-        print("TEST LINKED-LIST: Testing Data Access Complete")        
+        
+        if sll.debugMode:
+            print("TEST LINKED-LIST: Testing Data Access Complete")        
 
 
         
